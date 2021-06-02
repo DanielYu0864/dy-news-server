@@ -2,9 +2,10 @@
   "name": "react-typescript",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "start": "nodemon server.ts"
+    "start": "nodemon server.ts",
+    "build": "tsc --project ./"
   },
   "keywords": [],
   "author": "",
