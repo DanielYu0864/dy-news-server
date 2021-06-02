@@ -18,7 +18,7 @@ const newsapi = async (req: express.Request, res: express.Response) => {
     page: 1,
   });
 
-  res.send(topHeadlines);
+  res.json(topHeadlines);
 };
 
 export { newsapi };

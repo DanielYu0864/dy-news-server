@@ -15,7 +15,7 @@ const openWeatherMapApi = async (
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
   );
 
-  res.send(data);
+  res.json(data);
 };
 
 export { openWeatherMapApi };
