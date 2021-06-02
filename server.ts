@@ -28,8 +28,6 @@ app.get(`/newsapi/key=${dyNewsKey}/:country`, async (req, res) => {
     page: 1,
   });
 
-  // const { articles } = topHeadlines;
-
   res.send(topHeadlines);
 });
 
