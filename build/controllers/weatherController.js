@@ -21,6 +21,11 @@ const openWeatherMapApi = (req, res) => __awaiter(void 0, void 0, void 0, functi
     const city = req.params.city;
     const apiKey = process.env.OPENWEATHERMAP_API;
     const { data } = yield axios_1.default.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
-    res.send(data);
+    try {
+        yield res.json(data);
+    }
+    catch (error) {
+        throw 'error:' + error.message;
+    }
 });
 exports.openWeatherMapApi = openWeatherMapApi;

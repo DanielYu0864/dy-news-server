@@ -27,6 +27,11 @@ const newsapi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         pageSize: 40,
         page: 1,
     });
-    res.send(topHeadlines);
+    try {
+        yield res.json(topHeadlines);
+    }
+    catch (error) {
+        throw 'error:' + error.message;
+    }
 });
 exports.newsapi = newsapi;
