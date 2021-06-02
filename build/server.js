@@ -15,13 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const ts_newsapi_1 = __importDefault(require("ts-newsapi"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const axios_1 = __importDefault(require("axios"));
 dotenv_1.default.config();
 const app = express_1.default();
 const PORT = process.env.PORT || 5000;
+const dyNewsKey = process.env.DY_API;
 app.get('/', (req, res) => {
     res.send('home');
 });
-app.get('/newsapi/:country', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get(`/newsapi/key=${dyNewsKey}/:country`, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const country = req.params.country;
     const apiKey = process.env.NEWS_API;
     const newsAPI = new ts_newsapi_1.default(apiKey);
@@ -31,7 +33,13 @@ app.get('/newsapi/:country', (req, res) => __awaiter(void 0, void 0, void 0, fun
         pageSize: 40,
         page: 1,
     });
-    const { articles } = topHeadlines;
+    // const { articles } = topHeadlines;
     res.send(topHeadlines);
+}));
+app.get(`/weatherapi/key=${dyNewsKey}/:city`, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const city = req.params.city;
+    const apiKey = process.env.OPENWEATHERMAP_API;
+    const { data } = yield axios_1.default.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
+    res.send(data);
 }));
 app.listen(PORT, () => console.log(`⚡Server is running here 👉 https://localhost:${PORT}`));
