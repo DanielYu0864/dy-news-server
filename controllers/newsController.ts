@@ -17,8 +17,11 @@ const newsapi = async (req: express.Request, res: express.Response) => {
     pageSize: 40,
     page: 1,
   });
-
-  res.json(topHeadlines);
+  try {
+    await res.json(topHeadlines);
+  } catch (error) {
+    throw 'error:' + error.message;
+  }
 };
 
 export { newsapi };
