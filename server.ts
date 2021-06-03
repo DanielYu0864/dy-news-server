@@ -5,7 +5,6 @@ import apiRoutes from './routes/apiRoutes';
 dotenv.config();
 
 const app = express();
-
 const PORT = process.env.PORT || 5000;
 
 const dyNewsKey: string = process.env.DY_API as string;
