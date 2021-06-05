@@ -15,16 +15,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.newsapi = void 0;
 const ts_newsapi_1 = __importDefault(require("ts-newsapi"));
 // @desc    Get news from newsapi.io
-// @route   GET /api/key={}/news/:country
+// @route   GET /api/key={}/news/:country/:cateogry
 // @access  Private
 const newsapi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const country = req.params.country;
+    /* country list: [
+    'ae', 'ar', 'at', 'au', 'be', 'bg', 'br',
+    'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de',
+    'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id',
+    'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt',
+    'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no',
+    'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru',
+    'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr',
+    'tw', 'ua', 'us', 've', 'za'
+    ] */
+    const category = req.params.category;
+    /* category list: [
+    'business',
+    'entertainment',
+    'general',
+    'health',
+    'science',
+    'sports',
+    'technology'
+    ] */
     const apiKey = process.env.NEWS_API;
     const newsAPI = new ts_newsapi_1.default(apiKey);
     const topHeadlines = yield newsAPI.getTopHeadlines({
-        country: country,
-        category: 'business',
-        pageSize: 40,
+        country: country ? country : 'us',
+        category: category ? category : 'general',
+        pageSize: 45,
         page: 1,
     });
     try {
