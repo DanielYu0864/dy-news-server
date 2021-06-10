@@ -1,5 +1,6 @@
 import NewsAPI from 'ts-newsapi';
 import { Request, Response } from 'express';
+import { AxiosError } from 'axios';
 
 // @desc    Get news from newsapi.io
 // @route   GET /api/key={}/news/:country/:cateogry
@@ -31,16 +32,22 @@ const newsapi = async (req: Request, res: Response) => {
   const apiKey: string = process.env.NEWS_API as string;
   const newsAPI = new NewsAPI(apiKey);
 
-  const topHeadlines = await newsAPI.getTopHeadlines({
-    country: country ? country : 'us',
-    category: category ? category : 'general',
-    pageSize: 45,
-    page: 1,
-  });
   try {
+    const topHeadlines = await newsAPI.getTopHeadlines({
+      country: country ? country : 'us',
+      category: category ? category : 'general',
+      pageSize: 45,
+      page: 1,
+    });
     await res.json(topHeadlines);
   } catch (error) {
-    throw 'error:' + error.message;
+    const err = error as AxiosError;
+    if (err.response) {
+      console.log(err.response.status);
+      console.log(err.response.data);
+
+      await res.json(err.response.data);
+    }
   }
 };
 

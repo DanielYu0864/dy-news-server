@@ -20,12 +20,17 @@ const axios_1 = __importDefault(require("axios"));
 const openWeatherMapApi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const city = req.params.city;
     const apiKey = process.env.OPENWEATHERMAP_API;
-    const { data } = yield axios_1.default.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
     try {
+        const { data } = yield axios_1.default.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
         yield res.json(data);
     }
     catch (error) {
-        throw 'error:' + error.message;
+        const err = error;
+        if (err.response) {
+            console.log(err.response.status);
+            console.log(err.response.data);
+            yield res.json(err.response.data);
+        }
     }
 });
 exports.openWeatherMapApi = openWeatherMapApi;

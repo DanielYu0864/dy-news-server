@@ -41,17 +41,22 @@ const newsapi = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     ] */
     const apiKey = process.env.NEWS_API;
     const newsAPI = new ts_newsapi_1.default(apiKey);
-    const topHeadlines = yield newsAPI.getTopHeadlines({
-        country: country ? country : 'us',
-        category: category ? category : 'general',
-        pageSize: 45,
-        page: 1,
-    });
     try {
+        const topHeadlines = yield newsAPI.getTopHeadlines({
+            country: country ? country : 'us',
+            category: category ? category : 'general',
+            pageSize: 45,
+            page: 1,
+        });
         yield res.json(topHeadlines);
     }
     catch (error) {
-        throw 'error:' + error.message;
+        const err = error;
+        if (err.response) {
+            console.log(err.response.status);
+            console.log(err.response.data);
+            yield res.json(err.response.data);
+        }
     }
 });
 exports.newsapi = newsapi;
