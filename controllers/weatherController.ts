@@ -9,10 +9,11 @@ import axios from 'axios';
 const openWeatherMapApi = async (req: Request, res: Response) => {
   const city: any = req.params.city;
   const apiKey: string = process.env.OPENWEATHERMAP_API as string;
+  const language: string = req.params.lang ? req.params.lang : 'en';
 
   try {
     const { data } = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${language}&appid=${apiKey}`
     );
     await res.json(data);
   } catch (error) {

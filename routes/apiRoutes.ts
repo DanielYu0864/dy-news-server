@@ -7,5 +7,6 @@ const router = express.Router();
 router.route(`/news/:country`).get(newsapi);
 router.use('/news', newsapiRoutes);
 router.route(`/weather/:city`).get(openWeatherMapApi);
+router.route(`/weather/:city/:lang`).get(openWeatherMapApi);
 
 export default router;
